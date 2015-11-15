@@ -180,10 +180,8 @@ def rightAdd(grid):
             grid[i][j]=0 # reset box
 
 def analyze(gridA, movement_direction, num_turns):
-    # do the move_direction and calculate the total
-    # for example if called analyze(gridA, down, 2)
-    # you would do downmove and downAdd and then compute the total for that state of the grid and assign that to total
-    # keep highest number in top left and maybe numbers lined up along sides will be heuristic
+    global counter
+    # total = heuristic counter
     total = 0
     highest_number_on_grid = 0
 
@@ -192,28 +190,44 @@ def analyze(gridA, movement_direction, num_turns):
     if movement_direction == "up":
         up(tempGrid2)
         upAdd(tempGrid2)
-        # compute total
+        # compute total (heuristic calulation)
         for m in range(0,4):
             for n in range(0,4):
                 if tempGrid2[m][n] > highest_number_on_grid:
                     highest_number_on_grid = tempGrid2[m][n]
-        if tempGrid2[0][0] = highest_number_on_grid:
+        if tempGrid2[0][0] == highest_number_on_grid:
             total += 10
+        if tempGrid2[0][0] == tempGrid2[1][0]:
+            total += 25
+        if counter%2 == 0:
+            total += 20
+        if counter%40 == 0:
+            total += 40
+        if counter%50==0:
+            total += 60
     elif movement_direction == "down":
         down(tempGrid2)
         downAdd(tempGrid2)
-        total = 0
-        # compute total
+        if counter%51 == 0:
+            total += 60
     elif movement_direction == "left":
         left(tempGrid2)
         leftAdd(tempGrid2)
-        total = 0
-        # compute total
+        if counter%40 == 0:
+            total += 40
     elif movement_direction == "right":
         right(tempGrid2)
         rightAdd(tempGrid2)
-        total = 0
-        # compute total
+        for m in range(0,4):
+            for n in range(0,4):
+                if tempGrid2[m][n] > highest_number_on_grid:
+                    highest_number_on_grid = tempGrid2[m][n]
+        if tempGrid2[0][0] == highest_number_on_grid:
+            total += 10
+        if tempGrid2[0][0] == tempGrid2[0][1]:
+            total += 25
+        if counter%2 == 1:
+            total += 20
 
     turns = num_turns - 1
     highestNum = 0
