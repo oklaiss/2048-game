@@ -195,37 +195,58 @@ def analyze(gridA, movement_direction, num_turns):
             for n in range(0,4):
                 if tempGrid2[m][n] > highest_number_on_grid:
                     highest_number_on_grid = tempGrid2[m][n]
-        if tempGrid2[0][0] == highest_number_on_grid:
+        # helping keep highest number in top right corner
+        if tempGrid2[0][3] == highest_number_on_grid:
             total += 10
-        if tempGrid2[0][0] == tempGrid2[1][0]:
-            total += 25
+        #checking along right column of matrix
+        if (tempGrid2[0][3] == tempGrid2[1][3]) & tempGrid2[0][3]!=0:
+            total += 35
+        if (tempGrid2[1][3] == tempGrid2[2][3]) & tempGrid2[1][3]!=0:
+            total += 35
+        if (tempGrid2[2][3] == tempGrid2[3][3]) & tempGrid2[2][3]!=0:
+            total += 35
+        # "special spots"
+        if (tempGrid2[0][1] == tempGrid2[1][1]) & tempGrid2[1][1]!=0:
+            total += 50
+        # even/odd turn strategy
         if counter%2 == 0:
             total += 20
-        if counter%40 == 0:
-            total += 40
-        if counter%50==0:
-            total += 60
     elif movement_direction == "down":
         down(tempGrid2)
         downAdd(tempGrid2)
-        if counter%51 == 0:
-            total += 60
+        # if this is true, the number in the top right corner will move down
+        # we do not want this
+        if tempGrid2[3][3] == 0:
+            total = 0
     elif movement_direction == "left":
         left(tempGrid2)
         leftAdd(tempGrid2)
-        if counter%40 == 0:
-            total += 40
+        # if this is true, the number in the top right corner will move down
+        # we do not want this
+        if tempGrid2[0][0] == 0:
+            total = 0
     elif movement_direction == "right":
         right(tempGrid2)
         rightAdd(tempGrid2)
+        # computer total (heuristic calculation)
         for m in range(0,4):
             for n in range(0,4):
                 if tempGrid2[m][n] > highest_number_on_grid:
                     highest_number_on_grid = tempGrid2[m][n]
-        if tempGrid2[0][0] == highest_number_on_grid:
+        # helping keep highest number in top right corner
+        if tempGrid2[0][3] == highest_number_on_grid:
             total += 10
-        if tempGrid2[0][0] == tempGrid2[0][1]:
-            total += 25
+        # checking along top row of matrix
+        if (tempGrid2[0][3] == tempGrid2[0][2]) & tempGrid2[0][3]!=0:
+            total += 35
+        if (tempGrid2[0][2] == tempGrid2[0][1]) & tempGrid2[0][2]!=0:
+            total += 35
+        if (tempGrid2[0][1] == tempGrid2[0][0]) & tempGrid2[0][1]!=0:
+            total += 35
+        # "special spots"
+        if (tempGrid2[2][2] == tempGrid2[2][3]) & tempGrid2[2][2]!=0:
+            total += 50
+        # even/odd turn strategy
         if counter%2 == 1:
             total += 20
 
@@ -308,8 +329,6 @@ while True:
 
 
     print "Iteration: ", str(counter)
-
-
 
 
     # finding all Zero entries [0]
